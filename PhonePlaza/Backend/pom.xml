@@ -55,6 +55,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId> //For @NotBlank
+			<version>2.0.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
