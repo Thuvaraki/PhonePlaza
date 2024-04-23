@@ -36,8 +36,13 @@ public class User {
 
     private Date verificationCodeExpiryTime;
 
+    private boolean verified; //field is a boolean, it's implicitly set to false by default
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false)
     private Date createdAt;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
     @PrePersist
@@ -47,9 +52,8 @@ public class User {
         this.updatedAt=currentDateTime;
     }
 
-    @PostPersist
-    public void onUpdate(){
-        Date currentDateTime=new Date();
-        this.updatedAt=currentDateTime;
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = new Date();
     }
 }
