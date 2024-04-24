@@ -59,9 +59,43 @@ public class ProductService {
 
             return responseDTO;
         } else {
-            
             throw new ProductNotFoundException("Product with ID " + productId + " not found");
         }
     }
 
+    public List<ProductResponseDTO> findProductByCategory(Integer categoryId) {
+        List<Product> products = productRepository.findByCategoryCategoryId(categoryId);
+        List<ProductResponseDTO> productList = new ArrayList<>();
+
+        for (Product product : products) {
+            ProductResponseDTO productResponseDTO = new ProductResponseDTO();
+            productResponseDTO.setImageUrl(product.getImageUrl());
+            productResponseDTO.setProductName(product.getProductName());
+            productResponseDTO.setDescription(product.getDescription());
+            productResponseDTO.setPrice(product.getPrice());
+            productList.add(productResponseDTO);
+        }
+
+        return productList;
+    }
+
+    public ProductResponseDTO updateProduct(int productId, ProductDTO updatedProductDto) {
+        Product existingProduct = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with ID: " + productId));
+
+        existingProduct.setProductName(updatedProductDto.getProductName());
+        existingProduct.setPrice(updatedProductDto.getPrice());
+        existingProduct.setDescription(updatedProductDto.getDescription());
+        existingProduct.setImageUrl(updatedProductDto.getImageUrl());
+
+        Product updatedProduct = productRepository.save(existingProduct);
+
+        ProductResponseDTO updatedProductResponseDTO = new ProductResponseDTO();
+        updatedProductResponseDTO.setImageUrl(updatedProduct.getImageUrl());
+        updatedProductResponseDTO.setProductName(updatedProduct.getProductName());
+        updatedProductResponseDTO.setDescription(updatedProduct.getDescription());
+        updatedProductResponseDTO.setPrice(updatedProduct.getPrice());
+
+        return updatedProductResponseDTO;
+    }
 }
