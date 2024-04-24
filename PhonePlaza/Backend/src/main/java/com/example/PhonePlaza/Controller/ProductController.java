@@ -40,11 +40,17 @@ public class ProductController {
         return new ResponseEntity<ProductResponseDTO>(product, HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/findProductByCategory/{categoryId}")
+    public ResponseEntity<List<ProductResponseDTO>> findProductByCategory(@PathVariable("categoryId") Integer categoryId) {
+        List<ProductResponseDTO> products = productService.findProductByCategory(categoryId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
+    @PutMapping("/update/{productId}")
+    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable int productId, @RequestBody ProductDTO updatedProductDto) {
+        ProductResponseDTO updated = productService.updateProduct(productId, updatedProductDto);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
 
-
-    //View products by category
-    //Update product by id
-    //delete product by id
 //searchProductsByCategoryAndName
 }
