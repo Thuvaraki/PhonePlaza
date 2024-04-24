@@ -59,7 +59,7 @@ public class ProductService {
 
             return responseDTO;
         } else {
-            System.out.println("hi");
+            
             throw new ProductNotFoundException("Product with ID " + productId + " not found");
         }
     }
