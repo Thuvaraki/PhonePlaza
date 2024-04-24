@@ -131,5 +131,56 @@ public class UserService {
     }
 
     public APIResponse Login(LoginRequestDTO loginRequestDTO) {
+        APIResponse apiResponse = new APIResponse();
+
+        //Check whether the user exist with given email and password
+        User isUser = userRepository.findOneByEmailIgnoreCaseAndPassword(loginRequestDTO.getEmail(),loginRequestDTO.getPassword());
+
+        if (isUser == null) {
+            apiResponse.setError("Invalid Credentials!");
+            return apiResponse;
+        }
+
+        // Generate JWT
+        String token = jwtUtils.generateJwt(isUser);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("accessToken",token);
+
+        apiResponse.setData(data);
+
+        return apiResponse;
     }
+
+
+    public APIResponse ForgotPassword(String email) {
+        APIResponse apiResponse=new APIResponse();
+        User user=userRepository.findByEmail(email);
+        if (user == null) {
+            apiResponse.setError("User not found");
+        }else{
+            String otp=generateOTP();
+            user.setVerificationCode(otp);
+
+            Date expiryTime = calculateExpiryTime();
+            user.setVerificationCodeExpiryTime(expiryTime);
+
+            user = userRepository.save(user);
+
+            sendOTPForEmailVerification(user.getEmail(),otp);
+
+            EmailVerificationUsingOTP(user.getEmail(),otp);
+        }
+        return apiResponse;
+    }
+
+    public APIResponse ChangePassword(String email, String password) {
+        APIResponse apiResponse=new APIResponse();
+        User user = userRepository.findByEmail(email);
+        user.setPassword(password);
+        userRepository.save(user);
+        apiResponse.setData("password changed successfully");
+        return apiResponse;
+    }
+
 }
