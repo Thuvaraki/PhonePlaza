@@ -1,6 +1,7 @@
 package com.example.PhonePlaza.Service;
 
 import com.example.PhonePlaza.Common.APIResponse;
+import com.example.PhonePlaza.DTO.LoginRequestDTO;
 import com.example.PhonePlaza.DTO.RequestMeta;
 import com.example.PhonePlaza.DTO.SignUpRequestDTO;
 import com.example.PhonePlaza.Entity.User;
@@ -28,8 +29,6 @@ public class UserService {
 
     @Autowired
     private EmailService emailService;
-
-
 
     private static final String ALLOWED_CHARACTERS = "0123456789";
     private static final int OTP_LENGTH = 4;
@@ -71,7 +70,8 @@ public class UserService {
 
             apiResponse.setData(data);
             return apiResponse;
-        } else {
+        }
+        else {
             apiResponse.setError("User already exists or is already verified");
             return apiResponse;
         }
@@ -88,7 +88,6 @@ public class UserService {
             int randomIndex = random.nextInt(ALLOWED_CHARACTERS.length());
             otp.append(ALLOWED_CHARACTERS.charAt(randomIndex));
         }
-
         return otp.toString();
     }
 
@@ -107,8 +106,8 @@ public class UserService {
         emailService.sendEmail(email,subject,body);
     }
 
-    // Method to verify OTP
-    public APIResponse verifyOTP(String Email, String userEnteredOTP) {
+    // Method to verify Email Using OTP
+    public APIResponse EmailVerificationUsingOTP(String Email, String userEnteredOTP) {
         APIResponse apiResponse = new APIResponse();
 
         User user = userRepository.findByEmail(Email);
@@ -129,5 +128,8 @@ public class UserService {
             apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         }
         return apiResponse;
+    }
+
+    public APIResponse Login(LoginRequestDTO loginRequestDTO) {
     }
 }
