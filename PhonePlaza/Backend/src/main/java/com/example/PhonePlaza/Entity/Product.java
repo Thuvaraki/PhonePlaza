@@ -24,6 +24,6 @@ public class Product {
     private String imageUrl;
 
     @ManyToOne
-    @JoinColumn(name="category_id",referencedColumnName = "category_id",nullable = false)
+    @JoinColumn(name="categoryId",referencedColumnName = "categoryId",nullable = false)
     private Category category;
 }
