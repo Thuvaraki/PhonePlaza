@@ -1,4 +1,4 @@
-package com.example.PhonePlaza.Exception;
+package com.example.PhonePlaza.ExceptionAndHandler;
 
 public class ProductNotFoundException extends RuntimeException {
 

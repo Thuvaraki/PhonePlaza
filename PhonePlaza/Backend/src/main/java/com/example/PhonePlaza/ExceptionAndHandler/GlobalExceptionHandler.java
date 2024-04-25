@@ -1,4 +1,4 @@
-package com.example.PhonePlaza.Exception;
+package com.example.PhonePlaza.ExceptionAndHandler;
 
 import com.example.PhonePlaza.Common.APIResponse;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,8 @@ public class GlobalExceptionHandler {
 
         APIResponse apiResponse=new APIResponse();
 
-        apiResponse.setError("Oops Something went wrong");
+//        apiResponse.setError("Oops Something went wrong");
+        apiResponse.setError(e.getMessage());
         apiResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(apiResponse);
     }
@@ -24,11 +25,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity handleProductNotFoundException(ProductNotFoundException e) {
         APIResponse apiResponse = new APIResponse();
         apiResponse.setError(e.getMessage());
         apiResponse.setStatus(HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(apiResponse);
     }
+
+
+
 }
