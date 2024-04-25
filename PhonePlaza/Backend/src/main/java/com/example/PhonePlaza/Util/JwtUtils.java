@@ -1,7 +1,7 @@
 package com.example.PhonePlaza.Util;
 
 import com.example.PhonePlaza.Entity.User;
-import com.example.PhonePlaza.Exception.AccessDeniedException;
+import com.example.PhonePlaza.ExceptionAndHandler.AccessDeniedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ClaimsBuilder;
 import io.jsonwebtoken.Jwts;
