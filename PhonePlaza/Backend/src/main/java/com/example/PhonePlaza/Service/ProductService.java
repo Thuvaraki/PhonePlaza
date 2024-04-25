@@ -3,7 +3,7 @@ package com.example.PhonePlaza.Service;
 import com.example.PhonePlaza.DTO.ProductDTO;
 import com.example.PhonePlaza.DTO.ProductResponseDTO;
 import com.example.PhonePlaza.Entity.Product;
-import com.example.PhonePlaza.Exception.ProductNotFoundException;
+import com.example.PhonePlaza.ExceptionAndHandler.ProductNotFoundException;
 import com.example.PhonePlaza.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,4 +98,28 @@ public class ProductService {
 
         return updatedProductResponseDTO;
     }
+
+    public List<ProductResponseDTO> searchProductsByNameOrPartialProductName(String productName) {
+        List<Product> products;
+
+        if (productName != null && !productName.isEmpty()) {
+            products = productRepository.findByProductNameContaining(productName);
+        } else {
+            throw new IllegalArgumentException("Product name or partial product name must be provided.");
+        }
+
+        List<ProductResponseDTO> productList = new ArrayList<>();
+
+        for (Product product : products) {
+            ProductResponseDTO productResponseDTO = new ProductResponseDTO();
+            productResponseDTO.setImageUrl(product.getImageUrl());
+            productResponseDTO.setProductName(product.getProductName());
+            productResponseDTO.setDescription(product.getDescription());
+            productResponseDTO.setPrice(product.getPrice());
+            productList.add(productResponseDTO);
+        }
+
+        return productList;
+    }
+
 }
