@@ -33,6 +33,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(apiResponse);
     }
 
+    @ExceptionHandler
+    public ResponseEntity UserNotFoundException(UserNotFoundException e) {
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setError(e.getMessage());
+        apiResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(apiResponse);
+    }
+
 
 
 }
