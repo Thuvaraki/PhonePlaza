@@ -2,7 +2,6 @@ package com.example.PhonePlaza.Service;
 
 import com.example.PhonePlaza.Common.APIResponse;
 import com.example.PhonePlaza.DTO.LoginRequestDTO;
-import com.example.PhonePlaza.DTO.RequestMeta;
 import com.example.PhonePlaza.DTO.SignUpRequestDTO;
 import com.example.PhonePlaza.Entity.User;
 import com.example.PhonePlaza.Repository.UserRepository;
@@ -182,5 +181,4 @@ public class UserService {
         apiResponse.setData("password changed successfully");
         return apiResponse;
     }
-
 }
