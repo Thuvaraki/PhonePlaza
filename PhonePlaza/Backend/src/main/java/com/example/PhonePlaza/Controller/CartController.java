@@ -19,4 +19,10 @@ public class CartController {
         APIResponse apiResponse = cartService.addItemToCart(itemRequest, authorizationHeader).getBody();
         return ResponseEntity.status(HttpStatus.valueOf(apiResponse.getStatus())).body(apiResponse);
     }
+
+    @PutMapping("/update/{cartItemId}/{newQuantity}")
+    public ResponseEntity<APIResponse> updateCartItemQuantity(@PathVariable Integer cartItemId, @PathVariable int newQuantity, @RequestHeader(required = false) String authorizationHeader) {
+        return cartService.updateCartItemQuantity(cartItemId, newQuantity, authorizationHeader);
+    }
+
 }
