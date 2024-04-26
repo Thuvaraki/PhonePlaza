@@ -87,8 +87,8 @@ public class CartService {
                 cartItem.setSubTotal(cartItem.getSubTotal() + amount);
             }
 
-            // Add the cart item to the cart's items set
-            cart.getItems().add(cartItem);
+//            // Add the cart item to the cart's items set
+//            cart.getItems().add(cartItem);
             // Update the total price of the cart
             cart.setTotalPrice(cart.getTotalPrice()+ cartItem.getSubTotal());
 
