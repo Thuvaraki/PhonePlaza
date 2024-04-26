@@ -111,4 +111,55 @@ public class CartService {
             return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
         }
     }
+
+    public ResponseEntity<APIResponse> updateCartItemQuantity(Integer cartItemId, Integer newQuantity, String authorizationHeader) {
+        APIResponse apiResponse = new APIResponse();
+
+        // 1. Validate JWT token presence
+        if (authorizationHeader == null) {
+            apiResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+            apiResponse.setError("Unauthorized access!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
+        }
+
+        // 2. Extract user email from JWT token
+        String email = null;
+        try {
+            Claims claims = jwtUtils.verify(authorizationHeader);
+            email = claims.get("emailId", String.class);
+        } catch (Exception e) {
+            apiResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+            apiResponse.setError("Unauthorized access!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
+        }
+
+        // 2. Retrieve CartItem
+        Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
+        if (!cartItemOptional.isPresent()) {
+            apiResponse.setStatus(HttpStatus.NOT_FOUND.value());
+            apiResponse.setError("Cart Item not found!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+        }
+        CartItem cartItem = cartItemOptional.get();
+
+        if (newQuantity <= 0) {
+            apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+            apiResponse.setError("Invalid quantity! Quantity must be greater than 0.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+        }
+
+        cartItem.setQuantity(newQuantity);
+        double newSubTotal = Double.parseDouble(String.format("%.2f", Double.parseDouble(cartItem.getProduct().getPrice()) * newQuantity));
+
+        Cart cart = cartItem.getCart();
+        cart.setTotalPrice(cart.getTotalPrice() - cartItem.getSubTotal() + newSubTotal);
+        cartRepository.save(cart);
+
+        cartItem.setSubTotal(newSubTotal);
+        cartItemRepository.save(cartItem);
+
+        apiResponse.setStatus(HttpStatus.OK.value());
+        apiResponse.setData(cartItem);
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
 }
