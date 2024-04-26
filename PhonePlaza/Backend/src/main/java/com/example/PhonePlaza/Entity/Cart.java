@@ -24,7 +24,7 @@ public class Cart {
 //    @OneToMany(mappedBy = "cart",, fetch = FetchType.EAGER)
 //    private Set<CartItem> items = new HashSet<>();
 
-    private double totalPrice;
+    private double totalPrice=0.0;
 
     public Cart(User user) {
         this.user = user;
