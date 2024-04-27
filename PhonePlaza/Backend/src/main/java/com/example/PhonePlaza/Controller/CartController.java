@@ -15,7 +15,7 @@ public class CartController {
         private CartService cartService;
 
     @PostMapping("/add")
-    public ResponseEntity<APIResponse> addToCart(@RequestBody CartItemRequestDTO itemRequest, @RequestHeader(required = false) String authorizationHeader) {
+    public ResponseEntity<APIResponse> addToCart(@RequestBody CartItemRequestDTO itemRequest, @RequestHeader(required = false) String authorizationHeader) throws Exception {
         APIResponse apiResponse = cartService.addItemToCart(itemRequest, authorizationHeader).getBody();
         return ResponseEntity.status(HttpStatus.valueOf(apiResponse.getStatus())).body(apiResponse);
     }
@@ -24,5 +24,13 @@ public class CartController {
     public ResponseEntity<APIResponse> updateCartItemQuantity(@PathVariable Integer cartItemId, @PathVariable int newQuantity, @RequestHeader(required = false) String authorizationHeader) {
         return cartService.updateCartItemQuantity(cartItemId, newQuantity, authorizationHeader);
     }
+    @GetMapping("/getCartItems")
+    public ResponseEntity<APIResponse> getCartItems(@RequestHeader(required = false) String authorizationHeader) {
+        return cartService.getCartItems(authorizationHeader);
+    }
 
+    @DeleteMapping("/deleteCartItems")
+    public ResponseEntity<APIResponse> deleteCartItems(@RequestParam("cartItemId") Integer cartItemId, @RequestHeader(required = false) String authorizationHeader) {
+        return cartService.deleteCartItems(cartItemId,authorizationHeader);
+    }
 }
