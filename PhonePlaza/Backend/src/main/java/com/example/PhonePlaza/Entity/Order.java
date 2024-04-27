@@ -47,7 +47,7 @@ public class Order {
     private LocalDateTime placedOn;
 
 
-    @OneToMany(mappedBy="order",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItem =new HashSet<>();
 
     public Order(long userId, String firstName, String lastName, String addressLine1, String addressLine2, String city, String district, String phoneNo, LocalDateTime placedOn, Set<OrderItem> orderItem) {
