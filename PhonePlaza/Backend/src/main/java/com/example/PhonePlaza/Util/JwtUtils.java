@@ -36,6 +36,7 @@ public class JwtUtils {
         claims.add("name", user.getUserName());
         claims.add("emailId", user.getEmail());
 
+
         //generate jwt using claims
         return Jwts.builder()
                 .setClaims(claims.build())
