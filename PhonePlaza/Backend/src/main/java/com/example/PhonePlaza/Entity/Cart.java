@@ -21,10 +21,7 @@ public class Cart {
     @JoinColumn(name="userId",referencedColumnName = "userId",nullable = false)
     private User user;
 
-//    @OneToMany(mappedBy = "cart",, fetch = FetchType.EAGER)
-//    private Set<CartItem> items = new HashSet<>();
-
-    private double totalPrice=0.0;
+//   private double totalPrice;
 
     public Cart(User user) {
         this.user = user;
