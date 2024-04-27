@@ -21,8 +21,6 @@ public class Cart {
     @JoinColumn(name="userId",referencedColumnName = "userId",nullable = false)
     private User user;
 
-//   private double totalPrice;
-
     public Cart(User user) {
         this.user = user;
     }
