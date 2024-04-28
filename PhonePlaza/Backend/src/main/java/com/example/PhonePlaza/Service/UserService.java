@@ -247,12 +247,15 @@ public class UserService {
             }
 
             user.onUpdate();
+
+            userRepository.save(user);
+
             apiResponse.setStatus(HttpStatus.OK.value());
 
             return apiResponse;
         } catch (Exception e) {
             apiResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            apiResponse.setError("Error fetching user profile");
+            apiResponse.setError("Error on editing user profile");
             e.printStackTrace();
             return apiResponse;
         }
