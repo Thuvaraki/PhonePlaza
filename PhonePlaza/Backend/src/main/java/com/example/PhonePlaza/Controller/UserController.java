@@ -1,6 +1,7 @@
 package com.example.PhonePlaza.Controller;
 
 import com.example.PhonePlaza.Common.APIResponse;
+import com.example.PhonePlaza.DTO.EditProfileDTO;
 import com.example.PhonePlaza.DTO.LoginRequestDTO;
 import com.example.PhonePlaza.DTO.SignUpRequestDTO;
 import com.example.PhonePlaza.Service.UserService;
@@ -16,9 +17,6 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    JwtUtils jwtUtils;
 
     @PostMapping(path = "/signup")
     public ResponseEntity<APIResponse> signUp(@RequestBody SignUpRequestDTO signUpRequestDTO){
@@ -63,6 +61,18 @@ public class UserController {
         apiResponse.setStatus(HttpStatus.OK.value());
         apiResponse.setData("Logged out successfully");
         return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping(path = "/viewProfile")
+    public ResponseEntity<APIResponse> viewProfile(@RequestParam String email){
+        APIResponse apiResponse = userService.viewProfile(email);
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    }
+
+    @PutMapping(path = "/editProfile")
+    public ResponseEntity<APIResponse> editProfile(@RequestParam String email,@RequestBody EditProfileDTO editProfileDTO){
+        APIResponse apiResponse = userService.editProfile(email,editProfileDTO);
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 
 
