@@ -1,9 +1,12 @@
 package com.example.PhonePlaza.Service;
 
 import com.example.PhonePlaza.Common.APIResponse;
+import com.example.PhonePlaza.DTO.EditProfileDTO;
 import com.example.PhonePlaza.DTO.LoginRequestDTO;
 import com.example.PhonePlaza.DTO.SignUpRequestDTO;
+import com.example.PhonePlaza.DTO.ViewProfileResponseDTO;
 import com.example.PhonePlaza.Entity.User;
+import com.example.PhonePlaza.ExceptionAndHandler.UserNotFoundException;
 import com.example.PhonePlaza.Repository.UserRepository;
 import com.example.PhonePlaza.Util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,5 +183,79 @@ public class UserService {
         userRepository.save(user);
         apiResponse.setData("password changed successfully");
         return apiResponse;
+    }
+
+    public APIResponse viewProfile(String email) {
+        APIResponse apiResponse = new APIResponse();
+
+        try {
+            User existingUser = userRepository.findByEmail(email);
+
+            if (existingUser == null) {
+                throw new UserNotFoundException("User with email " + email + " not found");
+            }
+
+            ViewProfileResponseDTO viewProfileResponseDTO = new ViewProfileResponseDTO();
+            viewProfileResponseDTO.setUserId(existingUser.getUserId());
+            viewProfileResponseDTO.setUserName(existingUser.getUserName());
+            viewProfileResponseDTO.setEmail(existingUser.getEmail());
+
+            apiResponse.setStatus(HttpStatus.OK.value());
+            apiResponse.setData(viewProfileResponseDTO);
+            return apiResponse;
+        } catch (Exception e) {
+            apiResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            apiResponse.setError("Error fetching user profile");
+            e.printStackTrace();
+            return apiResponse;
+        }
+    }
+
+    public APIResponse editProfile(String email, EditProfileDTO editProfileDTO) {
+        APIResponse apiResponse = new APIResponse();
+
+        try {
+            User user = userRepository.findByEmail(email);
+
+            if (user == null) {
+                throw new UserNotFoundException("User with email " + email + " not found");
+            }
+
+            user.setUserName(editProfileDTO.getUserName());
+
+            if (!user.getEmail().trim().equalsIgnoreCase(editProfileDTO.getEmail().trim())) {
+                user.setEmail(editProfileDTO.getEmail());
+
+                user.setVerified(false);
+
+                String otp = generateOTP();
+                user.setVerificationCode(otp);
+
+                Date expiryTime = calculateExpiryTime();
+                user.setVerificationCodeExpiryTime(expiryTime);
+
+                sendOTPForEmailVerification(user.getEmail(), otp);
+
+                // Generate JWT
+                String token = jwtUtils.generateJwt(user);
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("accessToken", token);
+                apiResponse.setData(data);
+
+                //Again have to verify the email
+            }
+
+            user.onUpdate();
+            apiResponse.setStatus(HttpStatus.OK.value());
+
+            return apiResponse;
+        } catch (Exception e) {
+            apiResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            apiResponse.setError("Error fetching user profile");
+            e.printStackTrace();
+            return apiResponse;
+        }
+
     }
 }
