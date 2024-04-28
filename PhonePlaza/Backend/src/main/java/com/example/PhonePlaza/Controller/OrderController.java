@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/phoneplaza/user/order")
 public class OrderController {
@@ -27,7 +25,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/deleteOrder/{orderId}")
-    public ResponseEntity<APIResponse> cancelOrderById(@PathVariable int orderId) {
+    public ResponseEntity<APIResponse> cancelOrder(@PathVariable Integer orderId) {
         return orderService.cancelOrder(orderId);
     }
 }
