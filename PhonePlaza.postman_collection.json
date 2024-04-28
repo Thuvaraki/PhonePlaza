@@ -1,0 +1,726 @@
+{
+	"info": {
+		"_postman_id": "c2c9c26c-2540-4f46-a240-f52bf14aaf42",
+		"name": "PhonePlaza",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31969805"
+	},
+	"item": [
+		{
+			"name": "Sign Up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"Keerthikan\",\r\n    \"email\": \"Keerthikankeerthy@icloud.com\",\r\n    \"password\": \"Keerthy08\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify OTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/auth/emailVerificationUsingOTP/thuvakannan76@gmail.com/3223",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"auth",
+						"emailVerificationUsingOTP",
+						"thuvakannan76@gmail.com",
+						"3223"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forgot password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/auth/forgotPassword?email=thuvakannan76@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"auth",
+						"forgotPassword"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "thuvakannan76@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/auth/changePassword?email=thuvakannan76@gmail.com&password=Thuva12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"auth",
+						"changePassword"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "thuvakannan76@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "Thuva12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/auth/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"categoryName\":\"Huawei\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/categories/addCategory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"categories",
+						"addCategory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ViewCategories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/categories/viewCategory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"categories",
+						"viewCategory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"productName\": \"Example Product 2\",\r\n  \"price\": \"200\",\r\n  \"description\": \"This is an example product 2 description.\",\r\n  \"imageUrl\": \"https://example.com/image.jpg\",\r\n  \"category\": {\r\n    \"categoryId\": 2\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/products/addProduct",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"products",
+						"addProduct"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "View All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/products/viewAllProducts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"products",
+						"viewAllProducts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get product By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/products/viewProductById/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"products",
+						"viewProductById",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetProductByCategoryId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/products/findProductByCategory/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"products",
+						"findProductByCategory",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update product By Id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"productName\": \"Example Product\",\r\n  \"price\": \"200\",\r\n  \"description\": \"This is an example product description.\",\r\n  \"imageUrl\": \"https://example.com/image.jpg\",\r\n  \"category\": {\r\n    \"categoryId\": 1\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/products/update/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"products",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/products/searchProductsByName?productName=ex",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"products",
+						"searchProductsByName"
+					],
+					"query": [
+						{
+							"key": "productName",
+							"value": "ex"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update items in cart",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "authorizationHeader",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiIxIiwiaWF0IjoxNzE0MTE4NzgxLCJleHAiOjE3MTQxMjIzODEsInR5cGUiOiJVU0VSIiwibmFtZSI6IlRodXZhcmFraSIsImVtYWlsSWQiOiJ0aHV2YWthbm5hbjc2QGdtYWlsLmNvbSJ9.xzyu7-mw5q_hizB_pm0T63rfJvvCfTJVuGIbhHP6tNRhbLXytVwgvg1TG10uzJHcMp3e2Qz9h6uhV93y9GYKzg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/user/cart/update/6/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"user",
+						"cart",
+						"update",
+						"6",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update cart Item",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "authorizationHeader",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiIxIiwiaWF0IjoxNzE0MjAzMTk0LCJleHAiOjE3MTQyMDY3OTQsInR5cGUiOiJVU0VSIiwibmFtZSI6IlRodXZhcmFraSIsImVtYWlsSWQiOiJ0aHV2YWthbm5hbjc2QGdtYWlsLmNvbSJ9.nI2Q-dPJgoSraV9F44qT55v3QfI3gCyB_Xgr2PxnXJeUW9r_d9v0yn_bwZIwJ2umKSxy0SQAl-you_E8gwtiyw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/user/cart/update/6/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"user",
+						"cart",
+						"update",
+						"6",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n    \"email\":\"thuvakannan76@gmail.com\",\r\n    \"password\":\"Thuva12\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add item to cart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorizationHeader",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiIxIiwiaWF0IjoxNzE0Mjk3ODUyLCJleHAiOjE3MTQzMDE0NTIsInR5cGUiOiJVU0VSIiwibmFtZSI6IlRodXZhcmFraSIsImVtYWlsSWQiOiJ0aHV2YWthbm5hbjc2QGdtYWlsLmNvbSJ9.MHRfywx6aAEgcEdl601-lYktMc0AnFl4NCDiylLkLWsA_3HCfdCFYv-6WQdZwJd5znmNlx7NPyh2t8lxnxtYOg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\":\"1\",\r\n    \"quantity\":\"2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/user/cart/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"user",
+						"cart",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all items in cart",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorizationHeader",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiIxIiwiaWF0IjoxNzE0MjAzMTk0LCJleHAiOjE3MTQyMDY3OTQsInR5cGUiOiJVU0VSIiwibmFtZSI6IlRodXZhcmFraSIsImVtYWlsSWQiOiJ0aHV2YWthbm5hbjc2QGdtYWlsLmNvbSJ9.nI2Q-dPJgoSraV9F44qT55v3QfI3gCyB_Xgr2PxnXJeUW9r_d9v0yn_bwZIwJ2umKSxy0SQAl-you_E8gwtiyw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/user/cart/getCartItems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"user",
+						"cart",
+						"getCartItems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete item in cart",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "authorizationHeader",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiIxIiwiaWF0IjoxNzE0MjAzMTM4LCJleHAiOjE3MTQyMDY3MzgsInR5cGUiOiJVU0VSIiwibmFtZSI6IlRodXZhcmFraSIsImVtYWlsSWQiOiJ0aHV2YWthbm5hbjc2QGdtYWlsLmNvbSJ9.fTQFD1o7Dr7CE5hn2BHKQiXExyS2Z-1-L01YC_9E8U-r8cFvqfGXZ5_gasdW9cwO5LLV7iAbBY_BQUts-SUyOw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/user/cart/deleteCartItems?cartItemId=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"user",
+						"cart",
+						"deleteCartItems"
+					],
+					"query": [
+						{
+							"key": "cartItemId",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorizationHeader",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Thuva\",\r\n  \"lastName\": \"Kannan\",\r\n  \"addressLine1\": \"Meesalai west\",\r\n  \"addressLine2\": \"Meesalai\",\r\n  \"city\": \"Chavakachcheri\",\r\n  \"district\": \"Jaffna\",\r\n  \"phoneNo\": \"+94755808372\",\r\n  \"cartId\": 15,\r\n  \"userId\": 1,  \r\n  \"total\": 400\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/user/order/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"user",
+						"order",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get ordered items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/user/order/getOrderItems?email=thuvakannan76@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"user",
+						"order",
+						"getOrderItems"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "thuvakannan76@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel order",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/user/order/deleteOrder/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"user",
+						"order",
+						"deleteOrder",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view user profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/auth/viewProfile?email=thuvaraki12@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"auth",
+						"viewProfile"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "thuvaraki12@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit user profile",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"userName\" : \"ThuvaKannan\",\r\n   \"email\":\"thuvakannan76@gmail.com\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/phoneplaza/auth/editProfile?email=thuvakannan76@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"phoneplaza",
+						"auth",
+						"editProfile"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "thuvakannan76@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
