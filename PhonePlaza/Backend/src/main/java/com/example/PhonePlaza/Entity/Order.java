@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Data
@@ -46,11 +43,7 @@ public class Order {
 
     private LocalDateTime placedOn;
 
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private Set<OrderItem> orderItem =new HashSet<>();
-
-    public Order(long userId, String firstName, String lastName, String addressLine1, String addressLine2, String city, String district, String phoneNo, LocalDateTime placedOn, Set<OrderItem> orderItem) {
+    public Order(long userId, String firstName, String lastName, String addressLine1, String addressLine2, String city, String district, String phoneNo, LocalDateTime placedOn) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -60,8 +53,8 @@ public class Order {
         this.district = district;
         this.phoneNo = phoneNo;
         this.placedOn = placedOn;
-        this.orderItem = orderItem;
     }
+
 
     //    Assume this application has only cash on delivery
 }
