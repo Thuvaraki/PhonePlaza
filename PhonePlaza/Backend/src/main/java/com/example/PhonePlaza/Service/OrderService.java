@@ -2,6 +2,7 @@ package com.example.PhonePlaza.Service;
 
 import com.example.PhonePlaza.Common.APIResponse;
 import com.example.PhonePlaza.DTO.OrderRequestDTO;
+import com.example.PhonePlaza.DTO.ViewOrderResponseDTO;
 import com.example.PhonePlaza.Entity.*;
 import com.example.PhonePlaza.ExceptionAndHandler.UserNotFoundException;
 import com.example.PhonePlaza.Repository.*;
@@ -11,32 +12,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class OrderService {
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     CartRepository cartRepository;
-
     @Autowired
     CartItemRepository cartItemRepository;
-
     @Autowired
     OrderRepository orderRepository;
-
     @Autowired
     EmailService emailService;
-
     @Autowired
     OrderItemRepository orderItemRepository;
-
+    @Autowired
+    ProductRepository productRepository;
 
     public ResponseEntity<APIResponse> createOrder(OrderRequestDTO orderReq) {
         APIResponse apiResponse = new APIResponse();
@@ -64,13 +57,6 @@ public class OrderService {
             order = orderRepository.save(order);
 
             Set<OrderItem> orderItems = saveOrderItems(cart, order);
-//            System.out.println("1"+orderItems);
-
-            for (OrderItem orderItem : orderItems) {
-                orderItem.setOrder(order);
-            }
-
-            orderItemRepository.saveAll(orderItems); // Save all OrderItem entities
 
             clearCart(cart);
 
@@ -79,12 +65,9 @@ public class OrderService {
 
             emailService.sendEmail(user.getEmail(), subject, body);
 
-
             apiResponse.setStatus(HttpStatus.CREATED.value());
             apiResponse.setError("Order has been successfully placed!");
             return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
-
-
         } catch (Exception e) {
             apiResponse.setStatus(HttpStatus.CONFLICT.value());
             apiResponse.setError("Failed to create order: Please try again later!");
@@ -102,11 +85,9 @@ public class OrderService {
             orderItem.setProductId(cartItem.getProduct().getProductId());
             orderItem.setProductQuantity(cartItem.getQuantity());
             orderItem.setTotalProductPrice(cartItem.getSubTotal());
-            orderItem.setOrderItemId(cartItem.getCartItemId());
             orderItems.add(orderItem);
             orderItem = orderItemRepository.save(orderItem);
         }
-//        System.out.println("2"+orderItems);
         return orderItems;
     }
 
@@ -123,45 +104,85 @@ public class OrderService {
             if (user == null) {
                 throw new UserNotFoundException("User not found!");
             }
+
             List<Order> orders = orderRepository.findByUserIdOrderByOrderIdDesc(user.getUserId());
+            List<ViewOrderResponseDTO> responseDTOs = new ArrayList<>();
 
+            for (Order order : orders) {
+                List<OrderItem> orderItems = orderItemRepository.findByOrderOrderId(order.getOrderId());
+
+                // Process each order item to get product details
+                for (OrderItem orderItem : orderItems) {
+                    Product product = productRepository.findById(orderItem.getProductId()).orElseThrow(() -> new RuntimeException("Product not found for order item"));
+                    ViewOrderResponseDTO viewOrderResponseDTO = new ViewOrderResponseDTO();
+
+                    viewOrderResponseDTO.setOrderId(order.getOrderId());
+                    viewOrderResponseDTO.setUserId(order.getUserId());
+                    viewOrderResponseDTO.setFirstName(order.getFirstName());
+                    viewOrderResponseDTO.setLastName(order.getLastName());
+                    viewOrderResponseDTO.setAddressLine1(order.getAddressLine1());
+                    viewOrderResponseDTO.setAddressLine2(order.getAddressLine2());
+                    viewOrderResponseDTO.setCity(order.getCity());
+                    viewOrderResponseDTO.setDistrict(order.getDistrict());
+                    viewOrderResponseDTO.setPhoneNo(order.getPhoneNo());
+                    viewOrderResponseDTO.setPlacedOn(order.getPlacedOn());
+//                    System.out.println("1 " + viewOrderResponseDTO);
+
+                    viewOrderResponseDTO.setOrderItemId(orderItem.getOrderItemId());
+                    viewOrderResponseDTO.setProductId(orderItem.getProductId());
+                    viewOrderResponseDTO.setProductQuantity(orderItem.getProductQuantity());
+                    viewOrderResponseDTO.setTotalProductPrice(orderItem.getTotalProductPrice());
+//                    System.out.println("2 " + viewOrderResponseDTO);
+
+                    viewOrderResponseDTO.setProductName(product.getProductName());
+                    viewOrderResponseDTO.setImageUrl(product.getImageUrl());
+
+                    responseDTOs.add(viewOrderResponseDTO);
+                }
+
+            }
             apiResponse.setStatus(HttpStatus.OK.value());
-            apiResponse.setData(orders);
+            apiResponse.setData(responseDTOs);
             return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
-
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
+            System.out.println("e");
             apiResponse.setStatus(HttpStatus.NOT_FOUND.value());
             apiResponse.setError("Failed to retrieve orders: Please try again later!");
             return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
         }
     }
 
-    public ResponseEntity<APIResponse> cancelOrder(int orderId) {
-        APIResponse apiResponse = new APIResponse();
+    public ResponseEntity<APIResponse> cancelOrder(Integer orderId) {
+        APIResponse apiResponse=new APIResponse();
         try {
-            Optional<Order> order = orderRepository.findById(orderId);
-
-            if(!order.isPresent()){
-                throw new Exception("Order Not Found");
+            Optional<Order> order = this.orderRepository.findById(orderId);
+            if(!(order.isPresent())){
+                throw new RuntimeException("Order not found");
             }
 
-            Set<OrderItem> orderItems = order.get().getOrderItem();
-            System.out.println(orderItems);
-            for (OrderItem orderItem : orderItems) {
-                orderItemRepository.delete(orderItem);
+            List<OrderItem> orderItems = orderItemRepository.findByOrderOrderId(orderId);
+//            System.out.println(orderItems);
+
+            for(OrderItem orderItem : orderItems){
+                orderItemRepository.deleteById(orderItem.getOrderItemId());
             }
 
-//            orderRepository.deleteById(orderId);
+            orderRepository.deleteById(orderId);
 
             apiResponse.setStatus(HttpStatus.OK.value());
-            apiResponse.setData("Order has been successfully cancelled!");
+            apiResponse.setData("Order deleted successfully!");
 
+            System.out.println("11111");
             return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
-        } catch (Exception e) {
+        }catch(Exception e) {
             apiResponse.setStatus(HttpStatus.CONFLICT.value());
-            apiResponse.setData("Failed to cancel order: Please try again later!");
-
+            apiResponse.setError("Can't delete the order");
             return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
         }
     }
 }
+
+
+
+
