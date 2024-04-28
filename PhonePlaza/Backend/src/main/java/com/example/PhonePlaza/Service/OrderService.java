@@ -173,7 +173,6 @@ public class OrderService {
             apiResponse.setStatus(HttpStatus.OK.value());
             apiResponse.setData("Order deleted successfully!");
 
-            System.out.println("11111");
             return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
         }catch(Exception e) {
             apiResponse.setStatus(HttpStatus.CONFLICT.value());
@@ -182,7 +181,3 @@ public class OrderService {
         }
     }
 }
-
-
-
-
